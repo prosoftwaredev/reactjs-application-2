@@ -3,7 +3,6 @@ import Modal from 'react-bootstrap/lib/Modal'
 
 import { connect } from 'react-redux';
 import { hideSignupModal, signup } from '../AuthActions';
-import { isShowSignupModal } from '../AuthReducer';
 
 export class SignupModal extends Component {
 
@@ -24,35 +23,33 @@ export class SignupModal extends Component {
     }));
   };
 
-  render = () => {
+  render() {
     return (
-      <Modal
-        show={ this.props.isShowModal }
-        aria-labelledby='contained-modal-title'>
-            <Modal.Header>
-              <Modal.title>Sign Up</Modal.title>
-            </Modal.Header>
-            <Modal.body>
-              <div onBlur={this.hideModal}>
-                <input type='text' name='first_name' ref='first_name' />
-                <input type='text' name='last_name' ref='last_name' />
-                <input type='text' name='email' ref='email' />
-                <input type='password' name='password' ref='password' />
-                <a href='javascript:void(0);' onClick={this.signup} >Sign Up</a>
-              </div>
-            </Modal.body>
-    </Modal>
+      <div>
+        <Modal
+          show={ this.props.isShowModal } onHide={this.hideModal}>
+              <Modal.Header>
+                <Modal.Title>Sign Up</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <div onBlur={this.hideModal}>
+                  <input type='text' name='first_name' ref='first_name' />
+                  <input type='text' name='last_name' ref='last_name' />
+                  <input type='text' name='email' ref='email' />
+                  <input type='password' name='password' ref='password' />
+                  <a href='javascript:void(0);' onClick={this.signup} >Sign Up</a>
+                </div>
+              </Modal.Body>
+        </Modal>
+      </div>
     );
   }
 }
 
-SignupModal.propTypes = {
-  isShowModal: PropTypes.bool.isRequired,
-};
 
 function mapStateToProps(state) {
   return {
-    isShowModal: isShowSignupModal(state)
+    isShowModal: state.auth.isShowSignupModal
   };
 }
 

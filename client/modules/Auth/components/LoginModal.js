@@ -26,9 +26,9 @@ export class LoginModal extends Component {
         show={ this.props.isShowModal }
         aria-labelledby='contained-modal-title'>
             <Modal.Header>
-              <Modal.title>Sign Up</Modal.title>
+              <Modal.Title>Sign Up</Modal.Title>
             </Modal.Header>
-            <Modal.body>
+            <Modal.Body>
               <div onBlur={this.hideModal}>
                 <input type='text' name='first_name' ref='first_name' />
                 <input type='text' name='last_name' ref='last_name' />
@@ -36,15 +36,13 @@ export class LoginModal extends Component {
                 <input type='password' name='password' ref='password' />
                 <a href='javascript:void(0);' onClick={this.login} >Sign Up</a>
               </div>
-            </Modal.body>
-    </Modal>
+            </Modal.Body>
+      </Modal>
     );
   }
 }
 
 LoginModal.propTypes = {
-  hideModal: PropTypes.func.isRequired,
-  login: PropTypes.func.isRequired,
   isShowModal: PropTypes.bool.isRequired,
 };
 
