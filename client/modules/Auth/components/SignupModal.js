@@ -27,19 +27,36 @@ export class SignupModal extends Component {
     return (
       <div>
         <Modal
-          show={ this.props.isShowModal } onHide={this.hideModal}>
-              <Modal.Header>
+          show={ this.props.isShowModal }
+          onHide={this.hideModal}>
+              <Modal.Header closeButton>
                 <Modal.Title>Sign Up</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <div onBlur={this.hideModal}>
-                  <input type='text' name='first_name' ref='first_name' />
-                  <input type='text' name='last_name' ref='last_name' />
-                  <input type='text' name='email' ref='email' />
-                  <input type='password' name='password' ref='password' />
-                  <a href='javascript:void(0);' onClick={this.signup} >Sign Up</a>
+                  <div className='form-group'>
+                    <label htmlFor='#first_name'>First Name</label>
+                    <input type='text' id='first_name' ref='first_name' className='form-control' />
+                  </div>
+                  <div className='form-group'>
+                    <label htmlFor='#last_name'>Last Name</label>
+                    <input type='text' id='last_name' ref='last_name' className='form-control' />
+                  </div>
+                  <div className='form-group'>
+                    <label htmlFor='#email'>Email</label>
+                    <input type='text' id='email' ref='email' className='form-control' />
+                  </div>
+                  <div className='form-group'>
+                    <label htmlFor='#password'>Password</label>
+                    <input type='password' id='password' ref='password' className='form-control'  />
+                  </div>
                 </div>
               </Modal.Body>
+              <Modal.Footer>
+                <div className='form-group text-right'>
+                  <button onClick={this.signup} className='btn btn-primary'>Sign Up</button>
+                </div>
+              </Modal.Footer>
         </Modal>
       </div>
     );

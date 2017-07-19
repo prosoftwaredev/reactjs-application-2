@@ -24,18 +24,26 @@ export class LoginModal extends Component {
       <Modal
         show={ this.props.isShowModal }
         onHide={ this.hideModal }>
-            <Modal.Header>
-              <Modal.Title>Sign Up</Modal.Title>
+            <Modal.Header closeButton>
+              <Modal.Title>Login</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <div onBlur={this.hideModal}>
-                <input type='text' name='first_name' ref='first_name' />
-                <input type='text' name='last_name' ref='last_name' />
-                <input type='text' name='email' ref='email' />
-                <input type='password' name='password' ref='password' />
-                <a href='javascript:void(0);' onClick={this.login} >Sign Up</a>
+                <div className='form-group'>
+                    <label htmlFor='#email'>Email</label>
+                    <input type='text' id='email' ref='email' className='form-control'  />
+                </div>
+                <div className='form-group'>
+                    <label htmlFor='#password'>Password</label>
+                    <input type='password' id='password' ref='password' className='form-control'  />
+                </div>
               </div>
             </Modal.Body>
+            <Modal.Footer>
+              <div className='form-group text-right'>
+                <button onClick={this.login} className='btn btn-primary'>Login</button>
+              </div>
+            </Modal.Footer>
       </Modal>
     );
   }
