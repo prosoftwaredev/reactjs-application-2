@@ -10,10 +10,8 @@ export const HIDE_LOGIN_MODAL = 'HIDE_LOGIN_MODAL';
 export function login(user) {
   return (dispatch) => {
     return callApi('login', 'post', {
-        user: {
-          email: user.email,
-          passsword: user.password
-        },
+        email: user.email,
+        passsword: user.password
       }).then(res => dispatch(loggedIn({ email: res.email, token: res.token })));
   };
 }

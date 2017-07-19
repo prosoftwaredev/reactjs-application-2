@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import path from 'path';
 import IntlWrapper from '../client/modules/Intl/IntlWrapper';
+import passport from 'passport';
 
 // Webpack Requirements
 import webpack from 'webpack';
@@ -35,6 +36,7 @@ import { fetchComponentData } from './util/fetchData';
 import posts from './routes/post.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
+import passportConfig from './passport'
 
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
@@ -55,6 +57,9 @@ app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(Express.static(path.resolve(__dirname, '../dist/client')));
+app.use(Express.session(({ secret: 'rhett smith' })));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/api', posts);
 
 // Render Initial HTML
