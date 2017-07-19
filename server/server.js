@@ -1,4 +1,5 @@
 import Express from 'express';
+import session from 'express-session';
 import compression from 'compression';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
@@ -56,8 +57,9 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
 app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
+app.use(cookieParser());
 app.use(Express.static(path.resolve(__dirname, '../dist/client')));
-app.use(Express.session(({ secret: 'rhett smith' })));
+app.use(session(({ secret: 'rhett smith' })));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/api', posts);
