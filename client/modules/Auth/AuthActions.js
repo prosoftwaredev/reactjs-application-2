@@ -45,13 +45,13 @@ export function showSignupModal() {
 
 export function hideLoginModal() {
   return {
-    type: SHOW_LOGIN_MODAL
+    type: HIDE_LOGIN_MODAL
   }
 }
 
 export function showLoginModal() {
   return {
-    type: HIDE_LOGIN_MODAL
+    type: SHOW_LOGIN_MODAL
   }
 }
 

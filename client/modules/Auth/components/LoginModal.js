@@ -3,7 +3,6 @@ import Modal from 'react-bootstrap/lib/Modal'
 import { connect } from 'react-redux';
 
 import { hideLoginModal } from '../AuthActions';
-import { isShowLoginModal } from '../AuthReducer';
 
 export class LoginModal extends Component {
 
@@ -24,7 +23,7 @@ export class LoginModal extends Component {
     return (
       <Modal
         show={ this.props.isShowModal }
-        aria-labelledby='contained-modal-title'>
+        onHide={ this.hideModal }>
             <Modal.Header>
               <Modal.Title>Sign Up</Modal.Title>
             </Modal.Header>
@@ -48,7 +47,7 @@ LoginModal.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    isShowModal: isShowLoginModal(state)
+    isShowModal: state.auth.isShowLoginModal
   };
 }
 
