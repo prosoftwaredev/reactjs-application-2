@@ -14,7 +14,7 @@ export function login(user) {
           email: user.email,
           passsword: user.password
         },
-      }).then(res => dispatch(loggedIn({ email: res.email, token: res.token }));
+      }).then(res => dispatch(loggedIn({ email: res.email, token: res.token })));
   };
 }
 
@@ -27,17 +27,17 @@ export function signup(user) {
           first_name: user.first_name,
           last_name: user.last_name,
         },
-      }).then(res => dispatch(hideSignUpModal()));
+      }).then(res => dispatch(hideSignupModal()));
   };
 }
 
-export function hideSignUpModal() {
+export function hideSignupModal() {
   return {
     type: HIDE_SIGNUP_MODAL
   }
 }
 
-export function showSignUpModal() {
+export function showSignupModal() {
   return {
     type: SHOW_SIGNUP_MODAL
   }

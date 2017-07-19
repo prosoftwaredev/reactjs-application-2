@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { showSignupModal, showLoginModal } from '../Auth/AuthActions';
 
 // Import Style
 import styles from './App.css';
@@ -9,6 +10,9 @@ import Helmet from 'react-helmet';
 import DevTools from './components/DevTools';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+
+import SignupModal from '../Auth/components/SignupModal';
+import LoginModal from '../Auth/components/LoginModal';
 
 // Import Actions
 import { toggleAddPost } from './AppActions';
@@ -27,6 +31,14 @@ export class App extends Component {
   toggleAddPostSection = () => {
     this.props.dispatch(toggleAddPost());
   };
+
+  showLoginModal = () => {
+    this.props.dispatch(showLoginModal());
+  }
+
+  showSignupModal = () => {
+    this.props.dispatch(showSignupModal());
+  }
 
   render() {
     return (
@@ -52,9 +64,15 @@ export class App extends Component {
             switchLanguage={lang => this.props.dispatch(switchLanguage(lang))}
             intl={this.props.intl}
             toggleAddPost={this.toggleAddPostSection}
+            isAuthenticated = {this.props.isAuthenticated}
+            showLoginModal = {this.showLoginModal}
+            showSignupModal = {this.showSignupModal}
           />
+          <SignupModal />
+          <LoginModal />
           <div className={styles.container}>
             {this.props.children}
+
           </div>
           <Footer />
         </div>
@@ -67,13 +85,15 @@ App.propTypes = {
   children: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   intl: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
 };
 
 // Retrieve data from store as props
-function mapStateToProps(store) {
+function mapStoreToProps(store) {
   return {
     intl: store.intl,
+    isAuthenticated: store.auth.isAuthenticated
   };
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStoreToProps)(App);

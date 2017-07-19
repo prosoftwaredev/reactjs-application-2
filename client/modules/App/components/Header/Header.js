@@ -28,7 +28,12 @@ export function Header(props, context) {
             : null
         }
         {
-
+          !props.isAuthenticated &&
+          <a className={styles['add-post-button']} href="#" onClick={props.showLoginModal}><FormattedMessage id="login" /></a>
+        }
+        {
+          !props.isAuthenticated &&
+          <a className={styles['add-post-button']} href="#" onClick={props.showSignupModal}><FormattedMessage id="signup" /></a>
         }
       </div>
     </div>
@@ -42,6 +47,8 @@ Header.contextTypes = {
 Header.propTypes = {
   toggleAddPost: PropTypes.func.isRequired,
   switchLanguage: PropTypes.func.isRequired,
+  showLoginModal: PropTypes.func.isRequired,
+  showSignupModal: PropTypes.func.isRequired,
   intl: PropTypes.object.isRequired,
 };
 

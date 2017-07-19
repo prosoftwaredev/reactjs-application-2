@@ -1,10 +1,10 @@
-import { LOGGED_IN } from './AuthReducer'
+import { LOGGED_IN, SHOW_SIGNUP_MODAL, HIDE_SIGNUP_MODAL, SHOW_LOGIN_MODAL, HIDE_LOGIN_MODAL } from './AuthActions'
 
 const initialState = {
   isAuthenticated: false,
   user: null,
   isShowLoginModal: false,
-  isShowSignUpModal: false
+  isShowSignupModal: false
 };
 
 const AuthReducer = (state = initialState, action) => {
@@ -36,6 +36,10 @@ const AuthReducer = (state = initialState, action) => {
   }
 };
 
-export isShowLoginModal = state => state.isShowLoginModal;
+export const isShowLoginModal = state => state.auth.isShowLoginModal;
 
-export isShowSignUpModal = state => state.isShowSignUpModal;
+export const isShowSignupModal = state => state.auth.isShowSignupModal;
+
+export const isAuthenticated = state => state.auth.isAuthenticated;
+
+export default AuthReducer;
