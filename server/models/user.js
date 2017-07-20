@@ -12,7 +12,8 @@ const userSchema = new Schema({
   admin: { type: 'Boolean', default: false }
 });
 
-userSchema.pre('save', (next) => {
+userSchema.pre('save', function (next) {
+  const user = this;
   if (!user.isModified('password')) { return next();}
   bcrypt.genSalt(10, (err, salt) => {
     if (err) { return next(err); }

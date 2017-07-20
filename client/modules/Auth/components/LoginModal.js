@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Modal from 'react-bootstrap/lib/Modal'
 import { connect } from 'react-redux';
 
-import { hideLoginModal } from '../AuthActions';
+import { hideLoginModal, login } from '../AuthActions';
 
 export class LoginModal extends Component {
 
@@ -11,11 +11,11 @@ export class LoginModal extends Component {
   };
 
   login = () => {
-    email = this.ref.email;
-    password = this.ref.password;
+    var email = this.refs.email;
+    var password = this.refs.password;
     this.props.dispatch(login({
-      email: email,
-      password: password,
+      email: email.value,
+      password: password.value,
     }));
   };
 
@@ -28,7 +28,6 @@ export class LoginModal extends Component {
               <Modal.Title>Login</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <div onBlur={this.hideModal}>
                 <div className='form-group'>
                     <label htmlFor='#email'>Email</label>
                     <input type='text' id='email' ref='email' className='form-control'  />
@@ -37,7 +36,6 @@ export class LoginModal extends Component {
                     <label htmlFor='#password'>Password</label>
                     <input type='password' id='password' ref='password' className='form-control'  />
                 </div>
-              </div>
             </Modal.Body>
             <Modal.Footer>
               <div className='form-group text-right'>

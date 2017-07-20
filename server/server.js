@@ -3,6 +3,7 @@ import session from 'express-session';
 import compression from 'compression';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import path from 'path';
 import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 import passport from 'passport';
@@ -35,6 +36,7 @@ import Helmet from 'react-helmet';
 import routes from '../client/routes';
 import { fetchComponentData } from './util/fetchData';
 import posts from './routes/post.routes';
+import auth from './routes/auth.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
 import passportConfig from './passport'
@@ -63,6 +65,7 @@ app.use(session(({ secret: 'rhett smith' })));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/api', posts);
+app.use('/auth', auth);
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {

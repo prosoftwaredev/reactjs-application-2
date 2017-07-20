@@ -1,31 +1,42 @@
 // Export Constants
-import callApi from '../../util/apiCaller';
+import callAuth from '../../util/authCaller';
 
 export const LOGGED_IN = 'LOGGED_IN';
 export const SHOW_SIGNUP_MODAL = 'SHOW_SIGNUP_MODAL';
 export const HIDE_SIGNUP_MODAL = 'HIDE_SIGNUP_MODAL';
 export const SHOW_LOGIN_MODAL = 'SHOW_LOGIN_MODAL';
 export const HIDE_LOGIN_MODAL = 'HIDE_LOGIN_MODAL';
+export const SET_STATUS_TEXT = 'SET_STATUS_TEXT';
 
 export function login(user) {
   return (dispatch) => {
-    return callApi('login', 'post', {
+    return callAuth('login', 'post', {
         email: user.email,
-        passsword: user.password
-      }).then(res => dispatch(loggedIn({ email: res.email, token: res.token })));
+        password: user.password
+      }).then(res => {
+        dispatch(loggedIn({ email: res.user, token: res.token }));
+      });
   };
 }
 
 export function signup(user) {
   return (dispatch) => {
-    return callApi('signup', 'post', {
+    return callAuth('signup', 'post', {
         user: {
           email: user.email,
-          passsword: user.password,
+          password: user.password,
           first_name: user.first_name,
           last_name: user.last_name,
         },
-      }).then(res => dispatch(hideSignupModal()));
+      }).then((res) => {
+        if (res.error) {
+          dispatch(setStatusText(res.error));
+        }
+        else {
+          dispatch(hideSignupModal());
+          dispatch(showLoginModal());
+        }
+      });
   };
 }
 
@@ -57,5 +68,12 @@ export function loggedIn(user) {
   return {
     type: LOGGED_IN,
     user
+  }
+}
+
+export function setStatusText(text) {
+  return {
+    type: SET_STATUS_TEXT,
+    statusText: text
   }
 }

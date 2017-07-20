@@ -10,18 +10,19 @@ import serverConfig from '../config';
  */
 
 export function signup(req, res) {
-  User.find({email: req.user.email}, (err, user) => {
+  User.find({email: req.body.user.email}, (err, user) => {
     if (err) {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
-    if (user) {
-      res.status(400).send('Duplicated email!');
+    if (user.length != 0) {
+      return res.status(400).send({'error': 'Duplicated email!'});
     }
-    const user = new User(req.user);
-    user.save((err, user) => {
+    var newUser = new User(req.body.user);
+    newUser.save((err, user) => {
       if (err) {
-        res.status(200).send('ok');
+        return res.status(400).send(err);
       }
+      res.status(200).json({ status: 'ok' });
     })
   })
 }
@@ -32,10 +33,12 @@ export function signup(req, res) {
  * @param res
  */
 export function generateToken(req, res, next) {
+  console.log('generate token');
+  console.log(req.user);
   req.token = jwt.sign({
     id: req.user.id,
   }, serverConfig.secretKey, {
-    expiresInMinutes: 120
+    expiresIn: 60*60*4
   });
   next();
 }

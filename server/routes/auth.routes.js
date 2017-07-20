@@ -5,6 +5,6 @@ import * as AuthController from '../controllers/auth.controller';
 
 router.post('/signup', AuthController.signup);
 
-router.post('/login', AuthController.generateToken, AuthController.respond);
+router.post('/login', passport.authenticate('local'), AuthController.generateToken, AuthController.respond);
 
 export default router;

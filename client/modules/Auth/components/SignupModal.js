@@ -11,21 +11,20 @@ export class SignupModal extends Component {
   };
 
   signup = () => {
-    first_name = this.ref.first_name;
-    last_name = this.ref.last_name;
-    email = this.ref.email;
-    password = this.ref.password;
+    const first_name = this.refs.first_name;
+    const last_name = this.refs.last_name;
+    const email = this.refs.email;
+    const password = this.refs.password;
     this.props.dispatch(signup({
-      first_name: first_name,
-      last_name: last_name,
-      email: email,
-      password: password,
+      first_name: first_name.value,
+      last_name: last_name.value,
+      email: email.value,
+      password: password.value,
     }));
   };
 
   render() {
     return (
-      <div>
         <Modal
           show={ this.props.isShowModal }
           onHide={this.hideModal}>
@@ -33,7 +32,9 @@ export class SignupModal extends Component {
                 <Modal.Title>Sign Up</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <div onBlur={this.hideModal}>
+                  {
+                    this.props.statusText != '' && <div className='alert alert-danger' role='alert'>{this.props.statusText}</div>
+                  }
                   <div className='form-group'>
                     <label htmlFor='#first_name'>First Name</label>
                     <input type='text' id='first_name' ref='first_name' className='form-control' />
@@ -50,7 +51,6 @@ export class SignupModal extends Component {
                     <label htmlFor='#password'>Password</label>
                     <input type='password' id='password' ref='password' className='form-control'  />
                   </div>
-                </div>
               </Modal.Body>
               <Modal.Footer>
                 <div className='form-group text-right'>
@@ -58,7 +58,6 @@ export class SignupModal extends Component {
                 </div>
               </Modal.Footer>
         </Modal>
-      </div>
     );
   }
 }
@@ -66,7 +65,8 @@ export class SignupModal extends Component {
 
 function mapStateToProps(state) {
   return {
-    isShowModal: state.auth.isShowSignupModal
+    isShowModal: state.auth.isShowSignupModal,
+    statusText: state.auth.statusText
   };
 }
 
