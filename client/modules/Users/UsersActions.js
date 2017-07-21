@@ -52,7 +52,7 @@ export function createUser(user) {
   }
 }
 
-export function addUser(usr) {
+export function addUser(user) {
   return {
     type: ADD_USER,
     user

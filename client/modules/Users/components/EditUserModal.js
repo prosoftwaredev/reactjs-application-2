@@ -56,11 +56,11 @@ export class EditUserModal extends Component {
                 </div>
                 <div className='form-group'>
                     <label htmlFor='#last_name'>Last Name</label>
-                    <input type='text' id='last_name'  onChange={this.changeFirstName.bind(this)} className='form-control' value={this.state.last_name}/>
+                    <input type='text' id='last_name'  onChange={this.changeLastName.bind(this)} className='form-control' value={this.state.last_name}/>
                 </div>
                 <div className='form-group'>
                     <label htmlFor='#email'>Email</label>
-                    <input type='text' id='email'  onChange={this.changeFirstName.bind(this)} className='form-control' value={this.state.email} />
+                    <input type='text' id='email'  onChange={this.changeEmail.bind(this)} className='form-control' value={this.state.email} />
                 </div>
                 <div className='form-group'>
                     <label htmlFor='#password'>Password</label>
