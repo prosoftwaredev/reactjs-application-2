@@ -1,9 +1,10 @@
 import React, { PropTypes, Component } from 'react';
 import { fetchUsers } from '../UsersActions';
-import { getUsers } from '../UsersReducer';
+import { getUsers, getStatusText } from '../UsersReducer';
+import { getToken } from '../../Auth/AuthReducer';
 import {BootstrapTable, TableHeaderColumn, InsertButton} from 'react-bootstrap-table';
-import CreateUserModal from '../componenets/CreateUserModal';
-import EditUserModal from '../componenets/EditUserModal';
+import CreateUserModal from '../components/CreateUserModal';
+import EditUserModal from '../components/EditUserModal';
 
 
 class ActiveFormatter extends React.Component {
@@ -32,18 +33,26 @@ class UserListPage extends Component {
     }
   }
 
-  handleInsertButtonClick = (onClick) => {
+  handleCreateButtonClick = (onClick) => {
     this.setState({ isShowCreateUserModal: true });
   }
 
-  createCustomInsertButton = (onClick) => {
+  hideCreateModal = () => {
+    this.setState({ isShowCreateUserModal: false });
+  }
+
+  hideEditModal = () => {
+    this.setState({ isShowEditUserModal: false });
+  }
+
+  createUserButton = (onClick) => {
     return (
       <InsertButton
         btnText='Create User'
         btnContextual='btn-warning'
         className='my-custom-class'
         btnGlyphicon='glyphicon-edit'
-        onClick={ () => this.handleInsertButtonClick(onClick) }/>
+        onClick={ () => this.handleCreateButtonClick(onClick) }/>
     );
   }
 
@@ -53,10 +62,13 @@ class UserListPage extends Component {
       onSelect: this.handleRowSelect
     };
     const options = {
-      insertBtn: this.createCustomInsertButton
+      insertBtn: this.createUserButton
     };
     return (
       <div>
+        {
+          this.props.statusText != '' && <div className='alert alert-danger' role='alert'>{this.props.statusText}</div>
+        }
         <BootstrapTable
           data={this.props.users}
           hover
@@ -97,10 +109,14 @@ class UserListPage extends Component {
           </TableHeaderColumn>
         </BootstrapTable>
         <CreateUserModal
-          isShow={this.props.isShowCreateUserModal} />
+          isShow={this.props.isShowCreateUserModal}
+          hideModal={this.hideCreateModal}
+          token={this.props.token}/>
         <EditUserModal
-          selectedUser={this.props.user}
-          isShow={this.props.isShowEditUserModal} />
+          user={this.props.user}
+          isShow={this.props.isShowEditUserModal}
+          hideModal={this.hideEditModal}
+          token={this.props.token}/>
       </div>
     );
   }
@@ -113,13 +129,15 @@ UserListPage.need = [() => { return fetchUsers(); }];
 function mapStateToProps(state) {
   return {
     users: getUsers(state),
+    token: getToken(state),
+    statusText: getStatusText(state)
   };
 }
 
 UserListPage.defaultProps = {
   isShowCreateUserModal: false,
   isShowEditUserModal: false,
-  selectedUser: null
+  user: {}
 }
 
 UserListPage.propTypes = {
@@ -129,6 +147,8 @@ UserListPage.propTypes = {
     email: PropTypes.string.isRequired,
     admin: PropTypes.bool.isRequired,
   })).isRequired,
+  token: PropTypes.string.isRequired,
+  statusText: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 

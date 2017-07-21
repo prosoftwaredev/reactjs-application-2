@@ -9,7 +9,7 @@ import {
 
 const initialState = {
   isAuthenticated: false,
-  user: null,
+  user: {},
   isShowLoginModal: false,
   isShowSignupModal: false,
   statusText: ''
@@ -55,5 +55,7 @@ export const isShowLoginModal = state => state.auth.isShowLoginModal;
 export const isShowSignupModal = state => state.auth.isShowSignupModal;
 
 export const isAuthenticated = state => state.auth.isAuthenticated;
+
+export const getToken = state => state.auth.user.token
 
 export default AuthReducer;

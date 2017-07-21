@@ -2,16 +2,12 @@ import {
   ADD_USER,
   DELETE_USER,
   UPDATE_USER,
-  SHOW_CREATE_USER_MODAL,
-  SHOW_EDIT_USER_MODAL,
-  HIDE_CREATE_USER_MODAL,
-  HIDE_EDIT_USER_MODAL,
+  ADD_USERS,
+  SET_STATUS_TEXT
 } from './UsersActions'
 
 const initialState = {
   data: []
-  isShowCreateUserModal: false,
-  isShowEditUserModal: false,
   statusText: ''
 };
 
@@ -36,24 +32,6 @@ const AuthReducer = (state = initialState, action) => {
           return user;
         })
       })
-    case SHOW_CREATE_USER_MODAL:
-      return Object.assign({}, state, {
-        isShowCreateUserModal: true
-      });
-    case SHOW_EDIT_USER_MODAL:
-      return Object.assign({}, state, {
-        isShowEditUserModal: true,
-      });
-    case HIDE_CREATE_USER_MODAL:
-      return Object.assign({}, state, {
-        isShowCreateUserModal: false,
-        statusText: ''
-      });
-    case HIDE_EDIT_USER_MODAL:
-      return Object.assign({}, state, {
-        isShowEditUserModal: false,
-        statusText: ''
-      });
     case SET_STATUS_TEXT:
       return Object.assign({}, state, {
         statusText: action.statusText
@@ -63,4 +41,6 @@ const AuthReducer = (state = initialState, action) => {
   }
 };
 
-export function getUsers = state => state.users.data
+export function getUsers = state => state.users.data;
+
+export function getStatusText = state => state.users.statusText;

@@ -1,64 +1,69 @@
 import React, { Component, PropTypes } from 'react';
 import Modal from 'react-bootstrap/lib/Modal'
-import { connect } from 'react-redux';
+import { createUser } from '../UsersActions';
 
-import { hideLoginModal, login } from '../AuthActions';
+export class CreateUserModal extends Component {
 
-export class LoginModal extends Component {
-
-  hideModal = () => {
-    this.props.dispatch(hideLoginModal());
-  };
-
-  login = () => {
-    var email = this.refs.email;
-    var password = this.refs.password;
-    this.props.dispatch(login({
+  createUser = () => {
+    const first_name = this.refs.first_name;
+    const last_name = this.refs.last_name;
+    const email = this.refs.email;
+    const password = this.refs.password;
+    const admin = this.refs.admin;
+    this.props.dispatch(createUser({
+      first_name: first_name.value,
+      last_name: last_name.value,
       email: email.value,
       password: password.value,
-    }));
+      admin: admin.checked
+    }, this.props.token));
+    this.props.hideModal();
   };
 
   render() {
     return (
-      <Modal
-        show={ this.props.isShowModal }
-        onHide={ this.hideModal }>
-            <Modal.Header closeButton>
-              <Modal.Title>Login</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                {
-                  this.props.statusText != '' && <div className='alert alert-danger' role='alert'>{this.props.statusText}</div>
-                }
-                <div className='form-group'>
+        <Modal
+          show={ this.props.isShow }
+          onHide={this.props.hideModal}>
+              <Modal.Header closeButton>
+                <Modal.Title>Create User</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                  <div className='form-group'>
+                    <label htmlFor='#first_name'>First Name</label>
+                    <input type='text' id='first_name' ref='first_name' className='form-control' />
+                  </div>
+                  <div className='form-group'>
+                    <label htmlFor='#last_name'>Last Name</label>
+                    <input type='text' id='last_name' ref='last_name' className='form-control' />
+                  </div>
+                  <div className='form-group'>
                     <label htmlFor='#email'>Email</label>
-                    <input type='text' id='email' ref='email' className='form-control'  />
-                </div>
-                <div className='form-group'>
+                    <input type='text' id='email' ref='email' className='form-control' />
+                  </div>
+                  <div className='form-group'>
                     <label htmlFor='#password'>Password</label>
-                    <input type='password' id='password' ref='password' className='form-control'  />
+                    <input type='password' id='password' ref='password' className='form-control' />
+                  </div>
+                  <div className='form-group'>
+                    <label htmlFor='#admin'> Admin </label>
+                    <input type='checkbox' id='admin' ref='admin' className='form-control' />
+                  </div>
+              </Modal.Body>
+              <Modal.Footer>
+                <div className='form-group text-right'>
+                  <button onClick={this.createUser} className='btn btn-primary'>Sign Up</button>
                 </div>
-            </Modal.Body>
-            <Modal.Footer>
-              <div className='form-group text-right'>
-                <button onClick={this.login} className='btn btn-primary'>Login</button>
-              </div>
-            </Modal.Footer>
-      </Modal>
+              </Modal.Footer>
+        </Modal>
     );
   }
 }
 
-LoginModal.propTypes = {
-  isShowModal: PropTypes.bool.isRequired,
+CreateUserModal.propTypes = {
+  isShow: PropTypes.bool.isRequired,
+  hideModal: PropTypes.func.isRequired,
+  token: PropTypes.string.isRequired,
 };
 
-function mapStateToProps(state) {
-  return {
-    isShowModal: state.auth.isShowLoginModal,
-    statusText: state.auth.statusText
-  };
-}
-
-export default connect(mapStateToProps)(LoginModal);
+export default CreateUserModal;
