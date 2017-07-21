@@ -35,6 +35,10 @@ export function Header(props, context) {
           !props.isAuthenticated &&
           <a className={styles['add-post-button']} href="#" onClick={props.showSignupModal}><FormattedMessage id="signup" /></a>
         }
+        {
+          props.isAuthenticated &&
+          <Link to='/users' className={styles['add-post-button']}> Users </Link>
+        }
       </div>
     </div>
   );

@@ -1,16 +1,17 @@
 import React, { PropTypes, Component } from 'react';
 import { fetchUsers } from '../UsersActions';
 import { getUsers, getStatusText } from '../UsersReducer';
-import { getToken } from '../../Auth/AuthReducer';
+import { connect } from 'react-redux';
 import {BootstrapTable, TableHeaderColumn, InsertButton} from 'react-bootstrap-table';
 import CreateUserModal from '../components/CreateUserModal';
 import EditUserModal from '../components/EditUserModal';
+import componentDispatch from '../../../components/ComponentDispatch'
 
 
-class ActiveFormatter extends React.Component {
+class ActiveFormatter extends Component {
   render() {
     return (
-      <input type='checkbox' checked={ this.props.admin }/>
+      <input type='checkbox' checked={ this.props.admin } readOnly />
     );
   }
 }
@@ -23,14 +24,21 @@ function activeFormatter(cell, row) {
 
 class UserListPage extends Component {
 
-  componentDidMount() {
-    this.props.dispatch(fetchUsers());
+  constructor(props){
+    super(props);
+    this.state = {
+      isShowCreateUserModal: false,
+      isShowEditUserModal: false,
+      user: {},
+    };
+    this.handleRowSelect = this.handleRowSelect.bind(this);
+    this.handleCreateButtonClick = this.handleCreateButtonClick.bind(this);
+    this.hideCreateModal = this.hideCreateModal.bind(this);
+    this.hideEditModal = this.hideEditModal.bind(this);
   }
 
-  handleRowSelect(row, isSelected, e) {
-    if (isSelected) {
-      this.setState({ user: row, isShowEditUserModal: true });
-    }
+  handleRowSelect = (user) => (e) => {
+      this.setState({ user: user, isShowEditUserModal: true });
   }
 
   handleCreateButtonClick = (onClick) => {
@@ -51,16 +59,20 @@ class UserListPage extends Component {
         btnText='Create User'
         btnContextual='btn-warning'
         className='my-custom-class'
-        btnGlyphicon='glyphicon-edit'
-        onClick={ () => this.handleCreateButtonClick(onClick) }/>
+        btnGlyphicon='glyphicon-plus'
+        onClick={ () => this.handleCreateButtonClick() }/>
     );
   }
 
+  editUser = (cell, row) => {
+      return (
+        <button onClick={this.handleRowSelect(row)} className='btn btn-default'>
+          <span className="glyphicon glyphicon-pencil"></span>
+        </button>
+      )
+  }
+
   render() {
-    const selectRow = {
-      mode: 'radio',  // multi select
-      onSelect: this.handleRowSelect
-    };
     const options = {
       insertBtn: this.createUserButton
     };
@@ -76,19 +88,17 @@ class UserListPage extends Component {
           multiColumnSort={8}
           search
           multiColumnSearch
-          options=options
+          options={ options }
           insertRow
-          selectRow={ selectRow }
           >
           <TableHeaderColumn
             dataField='id'
             isKey
             hidden >
-            Email
+            Id
           </TableHeaderColumn>
           <TableHeaderColumn
             dataField='first_name'
-            caretRender={getCaret}
             dataSort >
               First Name
           </TableHeaderColumn>
@@ -107,37 +117,28 @@ class UserListPage extends Component {
             dataFormat={ activeFormatter } >
               Admin
           </TableHeaderColumn>
+          <TableHeaderColumn
+            dataField='id'
+            dataFormat={ this.editUser } />
         </BootstrapTable>
         <CreateUserModal
-          isShow={this.props.isShowCreateUserModal}
-          hideModal={this.hideCreateModal}
-          token={this.props.token}/>
+          isShow={this.state.isShowCreateUserModal}
+          hideModal={this.hideCreateModal} />
         <EditUserModal
-          user={this.props.user}
-          isShow={this.props.isShowEditUserModal}
-          hideModal={this.hideEditModal}
-          token={this.props.token}/>
+          user={this.state.user}
+          isShow={this.state.isShowEditUserModal}
+          hideModal={this.hideEditModal} />
       </div>
     );
   }
 }
 
-// Actions required to provide data for this component to render in sever side.
-UserListPage.need = [() => { return fetchUsers(); }];
-
 // Retrieve data from store as props
 function mapStateToProps(state) {
   return {
     users: getUsers(state),
-    token: getToken(state),
     statusText: getStatusText(state)
   };
-}
-
-UserListPage.defaultProps = {
-  isShowCreateUserModal: false,
-  isShowEditUserModal: false,
-  user: {}
 }
 
 UserListPage.propTypes = {
@@ -147,7 +148,6 @@ UserListPage.propTypes = {
     email: PropTypes.string.isRequired,
     admin: PropTypes.bool.isRequired,
   })).isRequired,
-  token: PropTypes.string.isRequired,
   statusText: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
@@ -156,4 +156,8 @@ UserListPage.contextTypes = {
   router: React.PropTypes.object,
 };
 
-export default connect(mapStateToProps)(UserListPage);
+export default componentDispatch({
+    willMount: (props, dispatch) => {
+      dispatch(fetchUsers())
+    }
+})(connect(mapStateToProps)(UserListPage));

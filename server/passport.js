@@ -26,7 +26,6 @@ passport.deserializeUser((id, done) => {
 });
 
 passport.use(new JwtStrategy(jwtOptions, function(jwt_payload, next) {
-  console.log('token');
   const id = jwt_payload.id;
   User.findById(id, (err, user) => {
     next(err, user);
@@ -40,7 +39,6 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, don
       }
       user.comparePassword(password, (err, isMatch) => {
         if (isMatch) {
-          console.log(3);
           return done(null, user);
         }
         return done(null, false, { msg: 'Invalid email or password.' });

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Modal from 'react-bootstrap/lib/Modal'
 import { createUser } from '../UsersActions';
+import { connect } from 'react-redux';
 
 export class CreateUserModal extends Component {
 
@@ -16,7 +17,7 @@ export class CreateUserModal extends Component {
       email: email.value,
       password: password.value,
       admin: admin.checked
-    }, this.props.token));
+    }));
     this.props.hideModal();
   };
 
@@ -52,7 +53,7 @@ export class CreateUserModal extends Component {
               </Modal.Body>
               <Modal.Footer>
                 <div className='form-group text-right'>
-                  <button onClick={this.createUser} className='btn btn-primary'>Sign Up</button>
+                  <button onClick={this.createUser} className='btn btn-primary'>Create</button>
                 </div>
               </Modal.Footer>
         </Modal>
@@ -63,7 +64,6 @@ export class CreateUserModal extends Component {
 CreateUserModal.propTypes = {
   isShow: PropTypes.bool.isRequired,
   hideModal: PropTypes.func.isRequired,
-  token: PropTypes.string.isRequired,
 };
 
-export default CreateUserModal;
+export default connect()(CreateUserModal);

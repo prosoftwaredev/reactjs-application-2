@@ -5,7 +5,12 @@ export const API_URL = (typeof window === 'undefined' || process.env.NODE_ENV ==
   process.env.BASE_URL || (`http://localhost:${process.env.PORT || Config.port}/api`) :
   '/api';
 
-export default function callApi(endpoint, method = 'get', body, token=null) {
+var token = null;
+export function setToken (t) {
+  token = t
+}
+
+export default function callApi(endpoint, method = 'get', body) {
   var headers = {};
   headers['content-type'] = 'application/json';
   if (token) {

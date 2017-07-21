@@ -1,10 +1,13 @@
 import { Router } from 'express';
 const router = new Router();
 import passport from 'passport';
-import * as AuthController from '../controllers/auth.controller';
+import * as UsersController from '../controllers/users.controller';
 
-router.post('/signup', AuthController.signup);
 
-router.post('/login', passport.authenticate('local'), AuthController.generateToken, AuthController.respond);
+router.get('/', passport.authenticate('jwt'), UsersController.getUsers);
+
+router.put('/update', passport.authenticate('jwt'), UsersController.updateUser);
+
+router.post('/add', passport.authenticate('jwt'), UsersController.createUser);
 
 export default router;

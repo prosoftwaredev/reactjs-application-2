@@ -7,9 +7,10 @@ export const DELETE_USER = 'DELETE_USER';
 export const UPDATE_USER = 'UPDATE_USER';
 export const SET_STATUS_TEXT = 'SET_STATUS_TEXT';
 
-export function fetchUsers(token) {
+export function fetchUsers() {
+  console.log('asfasdf');
   return (dispatch) => {
-    return callApi('users', 'get', {}, token).then(res => {
+    return callApi('users/').then(res => {
         dispatch(addUsers(res.users));
     });
   };
@@ -22,9 +23,9 @@ export function addUsers(users) {
   }
 }
 
-export function updateUser(user, token) {
+export function updateUser(user) {
   return (dispatch) => {
-    return callApi('update_user', 'post', user, token).then(res => {
+    return callApi('users/update', 'put', user).then(res => {
       if (res.error) {
         dispatch(setStatusText(res.error));
       }
@@ -40,9 +41,9 @@ export function modifyUser(user) {
   }
 }
 
-export function createUser(user, token) {
+export function createUser(user) {
   return (dispatch) => {
-    return callApi('add_user', 'post', user, token).then(res => {
+    return callApi('users/add', 'post', user).then(res => {
         if (res.error) {
             dispatch(setStatusText(res.error));
         }

@@ -1,5 +1,6 @@
 // Export Constants
 import callAuth from '../../util/authCaller';
+import { setToken } from '../../util/apiCaller';
 
 export const LOGGED_IN = 'LOGGED_IN';
 export const SHOW_SIGNUP_MODAL = 'SHOW_SIGNUP_MODAL';
@@ -16,6 +17,7 @@ export function login(user) {
       }).then(res => {
         if (res.user) {
           dispatch(loggedIn({ email: res.user, token: res.token, isAdmin: res.isAdmin }));
+          setToken(res.token);
         }
         else {
           dispatch(setStatusText('Invalid email and password'));

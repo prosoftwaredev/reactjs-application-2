@@ -7,28 +7,28 @@ import {
 } from './UsersActions'
 
 const initialState = {
-  data: []
+  data: [],
   statusText: ''
 };
 
-const AuthReducer = (state = initialState, action) => {
+const UsersReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_USERS:
       return Object.assign({}, state, {
-        users: action.users
+        data: action.users
       })
     case ADD_USER:
       return Object.assign({}, state, {
-        users: [action.user, ...state.data],
-      };
+        data: [action.user, ...state.data],
+      })
     case DELETE_USER:
       return Object.assign({}, state, {
-        users: state.data.filter(user => user.id !== action.uid),
+        data: state.data.filter(user => user._id !== action.uid),
       })
     case UPDATE_USER:
       return Object.assign({}, state, {
-        users: state.data.map(user => {
-          if (user.id === action.user.id) return action.user;
+        data: state.data.map(user => {
+          if (user._id === action.user._id) return action.user;
           return user;
         })
       })
@@ -41,6 +41,8 @@ const AuthReducer = (state = initialState, action) => {
   }
 };
 
-export function getUsers = state => state.users.data;
+export const getUsers = state => state.users.data;
 
-export function getStatusText = state => state.users.statusText;
+export const getStatusText = state => state.users.statusText;
+
+export default UsersReducer;

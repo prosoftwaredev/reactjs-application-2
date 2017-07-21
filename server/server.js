@@ -37,6 +37,7 @@ import routes from '../client/routes';
 import { fetchComponentData } from './util/fetchData';
 import posts from './routes/post.routes';
 import auth from './routes/auth.routes';
+import users from './routes/users.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
 import passportConfig from './passport'
@@ -64,8 +65,9 @@ app.use(Express.static(path.resolve(__dirname, '../dist/client')));
 app.use(session(({ secret: 'rhett smith' })));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/api', posts);
+app.use('/api/posts', posts);
 app.use('/auth', auth);
+app.use('/api/users', users)
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {
