@@ -14,7 +14,12 @@ export function login(user) {
         email: user.email,
         password: user.password
       }).then(res => {
-        dispatch(loggedIn({ email: res.user, token: res.token }));
+        if (res.user) {
+          dispatch(loggedIn({ email: res.user, token: res.token, isAdmin: res.isAdmin }));
+        }
+        else {
+          dispatch(setStatusText('Invalid email and password'));
+        }
       });
   };
 }

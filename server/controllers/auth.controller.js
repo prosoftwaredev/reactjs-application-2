@@ -46,6 +46,7 @@ export function generateToken(req, res, next) {
 export function respond(req, res) {
   res.status(200).json({
     user: req.user.id,
-    token: req.token
+    token: req.token,
+    isAdmin: req.user.admin
   })
 }

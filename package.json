@@ -51,6 +51,7 @@
     "passport-local": "^1.0.0",
     "react": "^15.1.0",
     "react-bootstrap": "^0.31.1",
+    "react-bootstrap-table": "^3.4.6",
     "react-dom": "^15.1.0",
     "react-helmet": "^3.1.0",
     "react-intl": "^2.1.2",
