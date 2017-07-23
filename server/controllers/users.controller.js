@@ -3,11 +3,10 @@
  */
 
 import User from '../models/user';
+import mongoose from 'mongoose';
 
 export const getUsers = (req, res) => {
-  console.log('getUsers');
   User.find({}, (err, users) => {
-    console.log(users);
     if (err) {
       return res.status(500).send({'error': 'Can not get Users'});
     }
@@ -34,13 +33,14 @@ export const createUser = (req, res) => {
 }
 
 export const updateUser = (req, res) => {
+
   User.findById(req.body._id, (err, user) => {
     var newUser = new User(req.body);
     user.first_name = newUser.first_name;
     user.last_name = newUser.last_name;
     user.email = newUser.email;
     user.admin = newUser.admin;
-    if (!newUser.password) {
+    if (newUser.password) {
       user.password = newUser.password;
     }
     user.save((err, doc) => {
@@ -49,5 +49,5 @@ export const updateUser = (req, res) => {
       }
       return res.status(200).json({user: doc});
     });
-});
+  });
 }

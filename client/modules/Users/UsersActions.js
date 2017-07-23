@@ -8,7 +8,6 @@ export const UPDATE_USER = 'UPDATE_USER';
 export const SET_STATUS_TEXT = 'SET_STATUS_TEXT';
 
 export function fetchUsers() {
-  console.log('asfasdf');
   return (dispatch) => {
     return callApi('users/').then(res => {
         dispatch(addUsers(res.users));
@@ -29,7 +28,9 @@ export function updateUser(user) {
       if (res.error) {
         dispatch(setStatusText(res.error));
       }
-      else dispatch(modifyUser(res.user));
+      else {
+        dispatch(modifyUser(res.user));
+      }
     })
   }
 }

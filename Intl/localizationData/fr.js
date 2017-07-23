@@ -1,7 +1,7 @@
 export default {
   locale: 'fr',
   messages: {
-    siteTitle: 'MERN blog de démarrage',
+    siteTitle: 'Uploading Image',
     addPost: 'Ajouter Poster',
     signup: 'Sinscrire',
     login: 'Sidentifier',

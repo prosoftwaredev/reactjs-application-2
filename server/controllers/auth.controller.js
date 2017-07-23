@@ -33,8 +33,6 @@ export function signup(req, res) {
  * @param res
  */
 export function generateToken(req, res, next) {
-  console.log('generate token');
-  console.log(req.user);
   req.token = jwt.sign({
     id: req.user.id,
   }, serverConfig.secretKey, {
