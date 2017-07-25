@@ -5,9 +5,12 @@ import { connect } from 'react-redux';
 
 export class CreateFieldModal extends Component {
 
-  getInitialState = () => {
-    return {type:'text'};
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      type: 'text'
+    }
+  }
 
   handleChange = (e) => {
     this.setState({ type:e.target.value });
@@ -40,10 +43,6 @@ export class CreateFieldModal extends Component {
                     <input type='text' id='name' ref='name' className='form-control' />
                   </div>
                   <div className='form-group'>
-                    <label htmlFor='#last_name'>Last Name</label>
-                    <input type='text' id='last_name' ref='last_name' className='form-control' />
-                  </div>
-                  <div className='form-group'>
                     <label htmlFor='#type'>Type</label>
                     <select className='form-control' defaultValue={this.state.type} onChange={this.handleChange}>
                       <option value="text">Text</option>
@@ -55,9 +54,11 @@ export class CreateFieldModal extends Component {
                     <label htmlFor='#description'>Description</label>
                     <input type='description' id='description' ref='description' className='form-control' />
                   </div>
-                  <div className='form-group'>
-                    <label htmlFor='#isRequired'> Required </label>
-                    <input type='checkbox' id='isRequired' ref='isRequired' className='form-control' />
+                  <div className='checkbox'>
+                    <label htmlFor='#isRequired'>
+                      <input type='checkbox' id='isRequired' ref='isRequired' />
+                      Required
+                    </label>
                   </div>
               </Modal.Body>
               <Modal.Footer>

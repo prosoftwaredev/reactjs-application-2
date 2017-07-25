@@ -100,7 +100,8 @@ class RecordListPage extends Component {
 
   render() {
     const options = {
-      insertBtn: this.createRecordButton
+      insertBtn: this.createRecordButton,
+      noDataText: 'No Records!'
     };
     return (
       <div>
@@ -108,50 +109,52 @@ class RecordListPage extends Component {
           this.props.statusText != '' && <div className='alert alert-danger' role='alert'>{this.props.statusText}</div>
         }
         <button className='btn btn-default' onClick={this.addFieldModal}> Add Field </button>
-        <BootstrapTable
-          data={this.props.records}
-          hover
-          striped
-          multiColumnSort={8}
-          search
-          multiColumnSearch
-          options={ options }
-          insertRow
-          >
-          {
-            this.props.fields.map(field => {
-              if (field.type = 'bool') {
-                  return (
+        {}
+          <BootstrapTable
+            data={this.props.records}
+            hover
+            striped
+            multiColumnSort={8}
+            search
+            multiColumnSearch
+            options={ options }
+            insertRow
+            keyField='_id'>
+                {
+                  this.props.fields.map(field => {
+                    const name = field.name.replace(' ', '_');
+                    if (field.type == 'bool') {
+                      return (
+                            <TableHeaderColumn
+                              dataField={name}
+                              dataFormatter={activeFormatter}
+                              key={field._id}>
+                                {field.name}
+                              </TableHeaderColumn>
+                          );
+                  }
+                  else if (field.type == 'image') {
+                    return (
+                      <TableHeaderColumn
+                        dataField={name}
+                        dataFormatter={imageFormatter}
+                        key={field._id}>
+                          {field.name}
+                        </TableHeaderColumn>
+                      );
+                  }
+                  else return (
                     <TableHeaderColumn
-                      dataField={field.name.replace(' ', '_')}
-                      dataFormatter={activeFormatter}>
-                        {field.name}
-                      </TableHeaderColumn>
-                  );
-              }
-              if (record.type = 'image') {
-                return (
-                  <TableHeaderColumn
-                    dataField={field.name.replace(' ', '_')}
-                    dataFormatter={imageFormatter}>
+                      dataField={name}
+                      dataSort
+                      key={field._id} 
+                      hidden={name=='_id' ? true: false}>
                       {field.name}
                     </TableHeaderColumn>
                   );
+                })
               }
-              return (
-                <TableHeaderColumn
-                  dataField={field.name.replace(' ', '_')}
-                  dataSort>
-                  {field.name}
-                </TableHeaderColumn>
-              );
-            })
-          }
-          <TableHeaderColumn
-            dataField='id'
-            isKey
-            dataFormat={ this.editRecord } />
-        </BootstrapTable>
+          </BootstrapTable>
         <CreateRecordModal
           isShow={this.state.isShowCreateRecordModal}
           hideModal={this.hideCreateModal}
@@ -180,13 +183,7 @@ function mapStateToProps(state) {
 
 RecordListPage.propTypes = {
   records: PropTypes.array.isRequired,
-  fields: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    description: PropTypes.string,
-    type: PropTypes.string.isRequired,
-    isRequired: PropTypes.bool.isRequired
-  })),
+  fields: PropTypes.array.isRequired,
   statusText: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
 };

@@ -53,7 +53,7 @@ export class EditRecordModal extends Component {
                 this.props.fields.map(field => {
                   var name = field.name.replace(' ', '_');
                   return (
-                    <div className='form-group'>
+                    <div className='form-group' key={field._id}>
                       <label htmlFor={`#${name}`}>field.name</label>
                       { field.type == 'text' && <input type='text' id={name} ref={name} className='form-control' onChange={this.changeText(name).bind(this)} value={this.state[name]} /> }
                       { field.type == 'bool' && <input type='checkbox' id={name} ref={name} className='form-control' onChange={this.changeCheck(name).bind(this)} checked={this.state[name]}/> }

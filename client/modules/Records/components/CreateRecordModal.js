@@ -31,9 +31,10 @@ export class CreateRecordModal extends Component {
               <Modal.Body>
                   {
                     this.props.fields.map(field => {
+                      const name = field.name.replace(' ', '_');
                       return (
-                        <div className='form-group'>
-                          <label htmlFor={`#${name}`}>field.name</label>
+                        <div className='form-group' key={field._id}>
+                          <label htmlFor={`#${name}`}>{field.name}</label>
                           { field.type == 'text' && <input type='text' id={name} ref={name} className='form-control' /> }
                           { field.type == 'bool' && <input type='checkbox' id={name} ref={name} className='form-control' /> }
                           { field.type == 'image' && <input type='file' id={name} className='form-control' onChange={this.changeImage(name).bind(this)}/> }
