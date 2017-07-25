@@ -7,6 +7,9 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 import passport from 'passport';
+import aws from 'aws-sdk';
+import multer from 'multer';
+import multerS3 from 'multer-s3';
 
 // Webpack Requirements
 import webpack from 'webpack';
@@ -38,6 +41,8 @@ import { fetchComponentData } from './util/fetchData';
 import posts from './routes/post.routes';
 import auth from './routes/auth.routes';
 import users from './routes/users.routes';
+import records from './routes/records.routes';
+import fields from './routes/fields.routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
 import passportConfig from './passport'
@@ -67,7 +72,32 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/api/posts', posts);
 app.use('/auth', auth);
-app.use('/api/users', users)
+app.use('/api/users', users);
+app.use('/api/fields', fields);
+app.use('/api/records', records);
+
+var s3 = new aws.S3({
+  accessKeyId: '',
+  secretAccessKey: '',
+  region: 'us-east-2'
+})
+
+var upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'mockupknack',
+    metadata: function (req, file, cb) {
+      cb(null, {fieldName: file.fieldname});
+    },
+    key: function (req, file, cb) {
+      cb(null, Date.now().toString())
+    }
+  })
+});
+
+app.post('/upload', upload.array('photos', 3), function(req, res, next) {
+  res.send('Successfully uploaded ' + req.files.length + ' files!')
+});
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {

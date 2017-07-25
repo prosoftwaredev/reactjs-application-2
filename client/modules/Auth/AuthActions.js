@@ -1,4 +1,5 @@
 // Export Constants
+import { browserHistory } from 'react-router';
 import callAuth from '../../util/authCaller';
 import { setToken } from '../../util/apiCaller';
 
@@ -18,6 +19,7 @@ export function login(user) {
         if (res.user) {
           dispatch(loggedIn({ email: res.user, token: res.token, isAdmin: res.isAdmin }));
           setToken(res.token);
+          browserHistory.push('/records');
         }
         else {
           dispatch(setStatusText('Invalid email and password'));

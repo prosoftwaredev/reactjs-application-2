@@ -7,6 +7,7 @@ import { combineReducers } from 'redux';
 import app from './modules/App/AppReducer';
 import auth from './modules/Auth/AuthReducer';
 import users from './modules/Users/UsersReducer';
+import records from './modules/Records/RecordsReducer';
 import posts from './modules/Post/PostReducer';
 import intl from './modules/Intl/IntlReducer';
 
@@ -15,6 +16,7 @@ export default combineReducers({
   app,
   auth,
   users,
+  records,
   posts,
   intl,
 });

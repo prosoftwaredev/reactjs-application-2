@@ -33,3 +33,27 @@ export default function callApi(endpoint, method = 'get', body) {
     error => error
   );
 }
+
+export function uploadImage(body) {
+  const data = new FormData();
+  for ( key in body ) {
+    data.append(key, body[key]);
+  }
+  return fetch(`${API_URL}/upload`, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    method: 'POST',
+    body: data
+  }).then(response => response.json().then(json => ({ json, response })))
+    .then(({ json, response }) => {
+        if (!response.ok) {
+        return Promise.reject(json);
+      }
+      return json;
+    })
+    .then(
+        response => response,
+        error => error
+    );
+}
