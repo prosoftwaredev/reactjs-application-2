@@ -7,7 +7,7 @@ export class CreateRecordModal extends Component {
 
   createRecord = () => {
     var record = this.refs;
-    for (image in this.state) {
+    for (var image in this.state) {
       record[image] = this.state[image];
     }
     this.props.dispatch(createRecord(record));
@@ -32,15 +32,31 @@ export class CreateRecordModal extends Component {
                   {
                     this.props.fields.map(field => {
                       const name = field.name.replace(' ', '_');
-                      return (
-                        <div className='form-group' key={field._id}>
-                          <label htmlFor={`#${name}`}>{field.name}</label>
-                          { field.type == 'text' && <input type='text' id={name} ref={name} className='form-control' /> }
-                          { field.type == 'bool' && <input type='checkbox' id={name} ref={name} className='form-control' /> }
-                          { field.type == 'image' && <input type='file' id={name} className='form-control' onChange={this.changeImage(name).bind(this)}/> }
-                        </div>
-                      )
-                    })
+                      if (name != '_id')
+                        return (
+                          <div key={field._id}>
+                          { 
+                            field.type !='bool' &&
+                            <div className='form-group'>
+                              <label htmlFor={`#${name}`}>{field.name}</label> 
+                              { field.type == 'text' && <input type='text' id={name} ref={name} className='form-control' /> }
+                              
+                              { field.type == 'image' && <input type='file' id={name} className='form-control' onChange={this.changeImage(name).bind(this)}/> }
+                            </div> 
+                          }
+                          {
+                            field.type == 'bool' &&
+                            <div className='checkbox'>
+                              <label htmlFor={`#${name}`}>
+                                <input type='checkbox' id={name} ref={name}/>
+                                {field.name}
+                              </label>
+
+                            </div>
+                          }
+                          </div>
+                        )
+                      })
                   }
               </Modal.Body>
               <Modal.Footer>

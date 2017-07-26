@@ -35,10 +35,12 @@ export default function callApi(endpoint, method = 'get', body) {
 }
 
 export function uploadImage(body) {
+  console.log(body);
   const data = new FormData();
-  for ( key in body ) {
+  for ( var key in body ) {
     data.append(key, body[key]);
   }
+  console.log(data);
   return fetch(`${API_URL}/upload`, {
     headers: {
       'Content-Type': 'multipart/form-data'

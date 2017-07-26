@@ -1,5 +1,6 @@
 // Export Constants
-import callApi from '../../util/apiCaller';
+import callApi from '../../util/apiCaller'; 
+import {uploadImage} from '../../util/apiCaller'; 
 
 export const ADD_RECORD = 'ADD_RECORD';
 export const ADD_RECORDS = 'ADD_RECORDS';
@@ -29,13 +30,13 @@ export function addRecords(records) {
 export function updateRecord(record) {
   return (dispatch) => {
     var images = {};
-    for (key in record) {
+    for (var key in record) {
       if (typeof record[key] == 'object') {
         images[key] = record[key]
       }
     }
     return uploadImage(images).then(res=>{
-        for (key in res) {
+        for (var key in res) {
           record[key] = res[key];
         }
         callApi('records/update', 'put', record).then(res => {
@@ -58,13 +59,13 @@ export function modifyRecord(record) {
 export function createRecord(record) {
   return (dispatch) => {
     var images = {};
-    for (key in record) {
+    for (var key in record) {
       if (typeof record[key] == 'object') {
         images[key] = record[key]
       }
     }
     return uploadImage(images).then(res=>{
-      for (key in res) {
+      for (var key in res) {
         record[key] = res[key];
       }
       callApi('records/add', 'post', record).then(res => {

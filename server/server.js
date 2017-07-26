@@ -95,7 +95,7 @@ var upload = multer({
   })
 });
 
-app.post('/upload', upload.array('photos', 3), function(req, res, next) {
+app.post('/api/upload', upload.array('photos', 3), function(req, res, next) {
   res.send('Successfully uploaded ' + req.files.length + ' files!')
 });
 

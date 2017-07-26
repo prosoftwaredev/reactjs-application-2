@@ -51,5 +51,5 @@ export const deleteRecord = (req, res) => {
 }
 
 export const uploadImage = (req, res) => {
-
+  
 }
