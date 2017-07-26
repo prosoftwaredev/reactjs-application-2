@@ -26,7 +26,7 @@ function activeFormatter(cell, row) {
 class ImageFormatter extends Component {
   render() {
     return (
-      <img src={cell} width={100} height={100} />
+      <img src={this.props.cell} width={100} height={100} />
     );
   }
 }
