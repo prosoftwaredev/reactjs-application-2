@@ -127,33 +127,36 @@ class RecordListPage extends Component {
                       return (
                             <TableHeaderColumn
                               dataField={name}
-                              dataFormatter={activeFormatter}
+                              dataFormat={activeFormatter}
                               key={field._id}>
                                 {field.name}
                               </TableHeaderColumn>
                           );
-                  }
-                  else if (field.type == 'image') {
-                    return (
-                      <TableHeaderColumn
-                        dataField={name}
-                        dataFormatter={imageFormatter}
-                        key={field._id}>
+                    }
+                    else if (field.type == 'image') {
+                      return (
+                        <TableHeaderColumn
+                          dataField={name}
+                          dataFormat={imageFormatter}
+                          key={field._id}>
+                            {field.name}
+                          </TableHeaderColumn>
+                        );
+                    }
+                    else return (
+                        <TableHeaderColumn
+                          dataField={name}
+                          dataSort
+                          key={field._id} 
+                          hidden={name=='_id' ? true: false}>
                           {field.name}
                         </TableHeaderColumn>
                       );
-                  }
-                  else return (
-                    <TableHeaderColumn
-                      dataField={name}
-                      dataSort
-                      key={field._id} 
-                      hidden={name=='_id' ? true: false}>
-                      {field.name}
-                    </TableHeaderColumn>
-                  );
-                })
-              }
+                  })
+                },
+                <TableHeaderColumn
+                      dataField='id'
+                      dataFormat={ this.editRecord } />
           </BootstrapTable>
         <CreateRecordModal
           isShow={this.state.isShowCreateRecordModal}

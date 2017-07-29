@@ -77,14 +77,14 @@ app.use('/api/fields', fields);
 app.use('/api/records', records);
 
 var s3 = new aws.S3({
-  accessKeyId: '',
-  secretAccessKey: '',
-  region: 'us-east-2'
+  accessKeyId: 'AKIAI2D4ZLVB7CT36VEA',
+  secretAccessKey: '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',
 })
 
 var upload = multer({
   storage: multerS3({
     s3: s3,
+    acl: 'public-read',
     bucket: 'mockupknack',
     metadata: function (req, file, cb) {
       cb(null, {fieldName: file.fieldname});
@@ -95,8 +95,16 @@ var upload = multer({
   })
 });
 
-app.post('/api/upload', upload.array('photos', 3), function(req, res, next) {
-  res.send('Successfully uploaded ' + req.files.length + ' files!')
+
+app.post('/api/upload', upload.any(), function(req, res, next) {
+	var images = {};
+	for (var idx in req.files) {
+		var file = req.files[idx];
+		console.log(file);
+		images[file.fieldname] = file.location;
+	}
+	console.log(images);
+  	res.status(200).json(images);
 });
 
 // Render Initial HTML

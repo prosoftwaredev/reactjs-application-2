@@ -61,7 +61,8 @@ export function createRecord(record) {
     var images = {};
     for (var key in record) {
       if (typeof record[key] == 'object') {
-        images[key] = record[key]
+        console.log(record[key]);
+        images[key] = record[key];
       }
     }
     return uploadImage(images).then(res=>{

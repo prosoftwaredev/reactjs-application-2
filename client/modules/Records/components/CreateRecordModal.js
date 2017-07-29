@@ -7,6 +7,11 @@ export class CreateRecordModal extends Component {
 
   createRecord = () => {
     var record = this.refs;
+    for (var key in this.refs) {
+      if (this.refs[key].type=='text')
+        record[key] = this.refs[key].value;
+      else record[key] = this.refs[key].checked;
+    }
     for (var image in this.state) {
       record[image] = this.state[image];
     }
