@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { fetchRecords, fetchFields } from '../RecordsActions';
 import { getRecords, getStatusText, getFields } from '../RecordsReducer';
 import { connect } from 'react-redux';
-import {BootstrapTable, TableHeaderColumn, InsertButton} from 'react-bootstrap-table';
+import {BootstrapTable, TableHeaderColumn, InsertButton, DeleteButton} from 'react-bootstrap-table';
 import CreateRecordModal from '../components/CreateRecordModal';
 import AddFieldModal from '../components/AddFieldModal';
 import EditRecordModal from '../components/EditRecordModal';
@@ -26,7 +26,7 @@ function activeFormatter(cell, row) {
 class ImageFormatter extends Component {
   render() {
     return (
-      <img src={this.props.cell} width={100} height={100} />
+      <img src={this.props.cell} width={30} height={30} />
     );
   }
 }
@@ -98,10 +98,32 @@ class RecordListPage extends Component {
       )
   }
 
-  render() {
+  handleDeleteButtonClick = (onClick) => {
+    // Custom your onClick event here,
+    // it's not necessary to implement this function if you have no any process before onClick
+    onClick();
+  }
+
+  deleteRecordButton = (onClick) => {
+    return (
+      <DeleteButton
+        btnText='Delete Record'
+        btnContextual='btn-warning'
+        className='my-custom-class'
+        btnGlyphicon='glyphicon-trash'
+        onClick={ () => this.handleDeleteButtonClick(onClick) }/>
+    );
+  }
+
+  render() {  
     const options = {
       insertBtn: this.createRecordButton,
-      noDataText: 'No Records!'
+      noDataText: 'No Records!',
+      deleteBtn: this.deleteRecordButton
+    };
+    const selectRow = {
+      mode: 'radio', // or checkbox
+      clickToSelect: true
     };
     return (
       <div>
@@ -109,7 +131,6 @@ class RecordListPage extends Component {
           this.props.statusText != '' && <div className='alert alert-danger' role='alert'>{this.props.statusText}</div>
         }
         <button className='btn btn-default' onClick={this.addFieldModal}> Add Field </button>
-        {}
           <BootstrapTable
             data={this.props.records}
             hover
@@ -119,6 +140,8 @@ class RecordListPage extends Component {
             multiColumnSearch
             options={ options }
             insertRow
+            deleteRow
+            selectRow={ selectRow }
             keyField='_id'>
                 {
                   this.props.fields.map(field => {
@@ -143,20 +166,27 @@ class RecordListPage extends Component {
                           </TableHeaderColumn>
                         );
                     }
-                    else return (
+                    else if (field.type == 'text') {
+                      return (
                         <TableHeaderColumn
                           dataField={name}
                           dataSort
-                          key={field._id} 
-                          hidden={name=='_id' ? true: false}>
+                          key={field._id}>
                           {field.name}
                         </TableHeaderColumn>
                       );
+                  }
+                  else 
+                    return (
+                        <TableHeaderColumn
+                          dataField={name}
+                          key={field._id}
+                          dataFormat={this.editRecord}>
+                          Edit Record
+                        </TableHeaderColumn>
+                      )
                   })
-                },
-                <TableHeaderColumn
-                      dataField='id'
-                      dataFormat={ this.editRecord } />
+              }
           </BootstrapTable>
         <CreateRecordModal
           isShow={this.state.isShowCreateRecordModal}

@@ -77,8 +77,8 @@ app.use('/api/fields', fields);
 app.use('/api/records', records);
 
 var s3 = new aws.S3({
-  accessKeyId: 'AKIAI2D4ZLVB7CT36VEA',
-  secretAccessKey: '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',
+  accessKeyId: 'AKIAIK4WGMKAZGUTPNJQ',
+  secretAccessKey: '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',
 })
 
 var upload = multer({
@@ -100,11 +100,9 @@ app.post('/api/upload', upload.any(), function(req, res, next) {
 	var images = {};
 	for (var idx in req.files) {
 		var file = req.files[idx];
-		console.log(file);
 		images[file.fieldname] = file.location;
 	}
-	console.log(images);
-  	res.status(200).json(images);
+  res.status(200).json(images);
 });
 
 // Render Initial HTML

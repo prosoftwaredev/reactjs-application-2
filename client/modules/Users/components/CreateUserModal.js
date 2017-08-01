@@ -46,9 +46,12 @@ export class CreateUserModal extends Component {
                     <label htmlFor='#password'>Password</label>
                     <input type='password' id='password' ref='password' className='form-control' />
                   </div>
-                  <div className='form-group'>
-                    <label htmlFor='#admin'> Admin </label>
-                    <input type='checkbox' id='admin' ref='admin' className='form-control' />
+                  <div className='checkbox'>
+                    <label htmlFor='#admin'> 
+                      <input type='checkbox' id='admin' ref='admin' className='form-control' /> 
+                      Admin 
+                    </label>
+                    
                   </div>
               </Modal.Body>
               <Modal.Footer>

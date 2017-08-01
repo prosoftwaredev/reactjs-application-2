@@ -52,16 +52,27 @@ export class EditRecordModal extends Component {
               {
                 this.props.fields.map(field => {
                   var name = field.name.replace(' ', '_');
-                  return (
-                    <div className='form-group' key={field._id}>
-                      <label htmlFor={`#${name}`}>field.name</label>
-                      { field.type == 'text' && <input type='text' id={name} ref={name} className='form-control' onChange={this.changeText(name).bind(this)} value={this.state[name]} /> }
-                      { field.type == 'bool' && <input type='checkbox' id={name} ref={name} className='form-control' onChange={this.changeCheck(name).bind(this)} checked={this.state[name]}/> }
-                      { field.type == 'image' && <input type='file' id={name} className='form-control' onChange={this.changeImage(name).bind(this)} /> }
-                    </div>
-                )
-              })
-            }
+                  if (field.type != 'bool' && field.type != 'id') {
+                    return (
+                      <div className='form-group' key={field._id}>
+                        <label htmlFor={`#${name}`}>{field.name}</label>
+                        { field.type == 'text' && <input type='text' id={name} ref={name} className='form-control' onChange={this.changeText(name).bind(this)} value={this.state[name]} /> }
+                        { field.type == 'image' && <input type='file' id={name} className='form-control' onChange={this.changeImage(name).bind(this)} /> }
+                      </div>
+                    )
+                  }
+                  else if (field.type == 'bool'){
+                    return (
+                      <div className='checkbox' key={field.id}>
+                        <label htmlFor={`#${name}`}>
+                          <input type='checkbox' id={name} ref={name} onChange={this.changeCheck(name).bind(this)} checked={this.state[name]}/>
+                          {field.name}
+                        </label>
+                      </div>
+                    )
+                  }
+                })
+              }
             </Modal.Body>
             <Modal.Footer>
               <div className='form-group text-right'>

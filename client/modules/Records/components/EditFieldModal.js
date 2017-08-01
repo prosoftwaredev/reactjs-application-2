@@ -66,9 +66,11 @@ export class EditFieldModal extends Component {
                       <option value="image">Image</option>
                     </select>
                 </div>
-                <div className='form-group'>
-                  <label htmlFor='#isRequired'> Required </label>
-                  <input type='checkbox' id='isRequired' onChange={this.changeIsRequired.bind(this)} className='form-control' checked={this.state.isRequired}/>
+                <div className='checkbox'>
+                  <label htmlFor='#isRequired'> 
+                    Required 
+                    <input type='checkbox' id='isRequired' onChange={this.changeIsRequired.bind(this)} className='form-control' checked={this.state.isRequired}/>
+                  </label>
                 </div>
             </Modal.Body>
             <Modal.Footer>

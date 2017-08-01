@@ -27,8 +27,13 @@ export const createRecord = (req, res) => {
 
 export const updateRecord = (req, res) => {
   Record.findById(req.body._id, (err, record) => {
-    record.record = req.body.record;
-    record.markModified('record');
+    for (var key in req.body) {
+      if (key != '_id') {
+        console.log(key); 
+        record[key] = req.body[key];
+        record.markModified(key);
+      }
+    }
     record.save((err, doc) => {
       if (err) {
         return res.status(400).send({error: 'Can not upate Record!'});

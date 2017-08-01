@@ -43,7 +43,7 @@ const RecordsReducer = (state = initialState, action) => {
       })
     case ADD_FIELD:
       return Object.assign({}, state, {
-        fields: [action.field, ...state.fields],
+        fields: [...state.fields, action.field],
       })
     case DELETE_FIELD:
       return Object.assign({}, state, {
