@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { fetchRecords, fetchFields } from '../RecordsActions';
+import { fetchRecords, fetchFields, deleteRecord } from '../RecordsActions';
 import { getRecords, getStatusText, getFields } from '../RecordsReducer';
 import { connect } from 'react-redux';
 import {BootstrapTable, TableHeaderColumn, InsertButton, DeleteButton} from 'react-bootstrap-table';
@@ -99,8 +99,6 @@ class RecordListPage extends Component {
   }
 
   handleDeleteButtonClick = (onClick) => {
-    // Custom your onClick event here,
-    // it's not necessary to implement this function if you have no any process before onClick
     onClick();
   }
 
@@ -115,11 +113,16 @@ class RecordListPage extends Component {
     );
   }
 
+  handleDeletedRow = (rowKeys) => {
+    this.props.dispatch(deleteRecord(rowKeys[0]))
+  }
+
   render() {  
     const options = {
       insertBtn: this.createRecordButton,
       noDataText: 'No Records!',
-      deleteBtn: this.deleteRecordButton
+      deleteBtn: this.deleteRecordButton,
+      afterDeleteRow: this.handleDeletedRow
     };
     const selectRow = {
       mode: 'radio', // or checkbox

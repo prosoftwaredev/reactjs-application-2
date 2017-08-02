@@ -28,7 +28,7 @@ const RecordsReducer = (state = initialState, action) => {
       })
     case DELETE_RECORD:
       return Object.assign({}, state, {
-        records: state.records.filter(record => record._id !== action.uid),
+        records: state.records.filter(record => record._id !== action._id),
       })
     case UPDATE_RECORD:
       return Object.assign({}, state, {

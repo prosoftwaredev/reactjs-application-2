@@ -77,8 +77,8 @@ app.use('/api/fields', fields);
 app.use('/api/records', records);
 
 var s3 = new aws.S3({
-  accessKeyId: 'AKIAIK4WGMKAZGUTPNJQ',
-  secretAccessKey: '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',
+  accessKeyId: 'AKIAIIRUHVNQGIPGRUOA',
+  secretAccessKey: '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',
 })
 
 var upload = multer({

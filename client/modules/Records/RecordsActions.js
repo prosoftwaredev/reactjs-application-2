@@ -27,10 +27,26 @@ export function addRecords(records) {
   }
 }
 
+export function deleteRecord(id) {
+  return (dispatch) => {
+    return callApi('records/delete', 'delete', {_id: id}).then(res => {
+      if (!res.error) {
+        dispatch(removeRecord(id))
+      }
+    });
+  }
+}
+
+export function removeRecord(_id) {
+  return {
+    type: DELETE_RECORD,
+    _id
+  }
+}
+
 export function updateRecord(record) {
   return (dispatch) => {
     var images = {};
-    console.log(record);
     for (var key in record) {
       if (typeof record[key] == 'object') {
         images[key] = record[key]
@@ -38,10 +54,8 @@ export function updateRecord(record) {
     }
     return uploadImage(images).then(res=>{
         for (var key in res) {
-          console.log(key);
           record[key] = res[key];
         }
-        console.log(record);
         callApi('records/update', 'put', record).then(res => {
           if (res.error) {
             dispatch(setStatusText(res.error));

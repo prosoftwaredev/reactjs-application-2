@@ -10,6 +10,6 @@ router.put('/update', passport.authenticate('jwt'), RecordsController.updateReco
 
 router.post('/add', passport.authenticate('jwt'), RecordsController.createRecord);
 
-router.post('/delete', passport.authenticate('jwt'), RecordsController.deleteRecord);
+router.delete('/delete', passport.authenticate('jwt'), RecordsController.deleteRecord);
 
 export default router;
